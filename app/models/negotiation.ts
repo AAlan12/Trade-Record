@@ -2,8 +2,8 @@ export class Negotiation{
 
     constructor(
        private  _date : Date,
-       private readonly amount: number,
-       private readonly value: number
+       public readonly amount: number,
+       public readonly value: number
     ){}
 
     get date():Date{

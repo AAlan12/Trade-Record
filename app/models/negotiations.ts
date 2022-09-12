@@ -9,6 +9,6 @@ export class Negotiations{
     }
 
     list(): readonly Negotiation[]{
-        return this.negotiations
+        return this.negotiations;
     }
 }

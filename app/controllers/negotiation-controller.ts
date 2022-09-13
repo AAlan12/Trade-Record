@@ -21,11 +21,17 @@ export class NegotiationController{
     }
 
     public add():void{
-        const negotiation = this.createNegotiation();
+        const negotiation = Negotiation.createNegotiation(
+            this.inputDate.value,
+            this.inputAmount.value,
+            this.inputValue.value
+        );
+
         if(!this.businessDay(negotiation.date)){
             this.messageView.update('Only trades on business days are accepted');
             return;
         }
+
         this.negotiations.add(negotiation);
         this.clearForm();
         this.updateView();
@@ -35,19 +41,14 @@ export class NegotiationController{
         return date.getDay() > daysWeek.SUNDAY
         && date.getDay() < daysWeek.SATURDAY;
     }
-    private createNegotiation():Negotiation{
-        const exp = /-/g;
-        const date = new Date(this.inputDate.value.replace(exp,','));
-        const amount = parseInt(this.inputAmount.value);
-        const value = parseFloat(this.inputValue.value);
-        return new Negotiation(date,amount,value);
-    }
+
     private clearForm():void{
         this.inputDate.value = '';
         this.inputAmount.value = '';
         this.inputValue.value = '';
         this.inputDate.focus();
     }
+
     private updateView():void{
         this.negotiationsView.update(this.negotiations);
         this.messageView.update('trade added successfully');

@@ -1,3 +1,4 @@
+import { daysWeek } from "../enums/days-of-the-week.js";
 import { Negotiation } from "../models/negotiation.js";
 import { Negotiations } from "../models/negotiations.js";
 import { MessageView } from "../views/message-view.js";
@@ -13,23 +14,27 @@ export class NegotiationController {
         this.negotiationsView.update(this.negotiations);
     }
     add() {
-        const negotiation = this.createNegotiation();
+        const negotiation = Negotiation.createNegotiation(this.inputDate.value, this.inputAmount.value, this.inputValue.value);
+        if (!this.businessDay(negotiation.date)) {
+            this.messageView.update('Only trades on business days are accepted');
+            return;
+        }
         this.negotiations.add(negotiation);
-        this.negotiationsView.update(this.negotiations);
-        this.messageView.update('trade added successfully');
         this.clearForm();
+        this.updateView();
     }
-    createNegotiation() {
-        const exp = /-/g;
-        const date = new Date(this.inputDate.value.replace(exp, ','));
-        const amount = parseInt(this.inputAmount.value);
-        const value = parseFloat(this.inputValue.value);
-        return new Negotiation(date, amount, value);
+    businessDay(date) {
+        return date.getDay() > daysWeek.SUNDAY
+            && date.getDay() < daysWeek.SATURDAY;
     }
     clearForm() {
         this.inputDate.value = '';
         this.inputAmount.value = '';
         this.inputValue.value = '';
         this.inputDate.focus();
+    }
+    updateView() {
+        this.negotiationsView.update(this.negotiations);
+        this.messageView.update('trade added successfully');
     }
 }

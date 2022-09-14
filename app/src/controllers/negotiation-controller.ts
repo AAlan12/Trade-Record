@@ -1,3 +1,4 @@
+import { runtime } from "../decorators/runtime.js";
 import { daysWeek } from "../enums/days-of-the-week.js";
 import { Negotiation } from "../models/negotiation.js";
 import { Negotiations } from "../models/negotiations.js";
@@ -20,6 +21,7 @@ export class NegotiationController{
         this.negotiationsView.update(this.negotiations);
     }
 
+    @runtime()
     public add():void{
         const negotiation = Negotiation.createNegotiation(
             this.inputDate.value,

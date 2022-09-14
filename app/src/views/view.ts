@@ -1,3 +1,5 @@
+import { runtime } from "../decorators/runtime.js";
+
 export abstract class View<T>{
 
     protected element:HTMLElement;
@@ -14,8 +16,9 @@ export abstract class View<T>{
             this.escape = escape;
         }
     }
-
+    @runtime()
     public update(model:T):void{
+
         let template = this.template(model);
         if(this.escape){
             template = template.replace(/<script>[\s\S]*?<\/script>/, '');

@@ -1,4 +1,3 @@
-import { Negotiations } from "../models/negotiations.js";
 import { View } from "./view.js";
 
 export class MessageView extends View<string>{

@@ -1,3 +1,4 @@
+import { inspect } from "../decorators/inspect.js";
 import { runtime } from "../decorators/runtime.js";
 import { daysWeek } from "../enums/days-of-the-week.js";
 import { Negotiation } from "../models/negotiation.js";
@@ -6,8 +7,11 @@ import { MessageView } from "../views/message-view.js";
 import { NegotiationsView } from "../views/negotiations-view.js";
 
 export class NegotiationController{
+    @domInject('#date')
     private inputDate:HTMLInputElement;
+    @domInject('#amount')
     private inputAmount:HTMLInputElement;
+    @domInject('#value')
     private inputValue:HTMLInputElement;
     private negotiations:Negotiations = new Negotiations();
     private negotiationsView = new NegotiationsView('#negotiationsView');
@@ -15,13 +19,11 @@ export class NegotiationController{
 
 
     constructor(){
-        this.inputDate = document.querySelector('#date') as HTMLInputElement;
-        this.inputAmount = document.querySelector('#amount') as HTMLInputElement;
-        this.inputValue = document.querySelector('#value') as HTMLInputElement;
         this.negotiationsView.update(this.negotiations);
     }
 
     @runtime()
+    @inspect()
     public add():void{
         const negotiation = Negotiation.createNegotiation(
             this.inputDate.value,

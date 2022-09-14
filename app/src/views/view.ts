@@ -15,8 +15,6 @@ export abstract class View<T>{
         }
     }
 
-    @runtime()
-    @inspect()
     public update(model:T):void{
 
         let template = this.template(model);
